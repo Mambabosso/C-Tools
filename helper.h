@@ -5,7 +5,6 @@
 */
 
 #include <stdlib.h>
-#include <stdarg.h>
 #include <stdbool.h>
 
 #define ENDOFSTRING '\0'
