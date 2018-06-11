@@ -4,12 +4,16 @@
 *  License: https://github.com/Mambabosso/C-Tools/blob/master/LICENSE
 */
 
+
+#define ENDOFSTRING '\0'
+
+#ifdef ENDOFSTRING
+
+//#define ENDOFLINE '\n'
+
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdbool.h>
-
-#define ENDOFSTRING '\0'
-//#define ENDOFLINE '\n'
 
 
 int strlength(const char *str);
@@ -281,3 +285,5 @@ bool fileappend(const char *path, const int pos, const char *content)
     return result;
 }
 
+
+#endif // ENDOFSTRING
