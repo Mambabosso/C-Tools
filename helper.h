@@ -5,6 +5,7 @@
 */
 
 #include <stdlib.h>
+#include <stdarg.h>
 #include <stdbool.h>
 
 #define ENDOFSTRING '\0'
@@ -15,6 +16,7 @@ int strlength(const char *str);
 int strccount(const char *str, const char c);
 char * strsplit(const char *str, const char delimiter, const int offset, int *pos);
 char ** strarrsplit(const char *str, const char delimiter, int *arrlen);
+char * strfrm(const char *str, ...);
 char * strinn(const char *str, const int pos, const int length);
 char * strins(const char *str, const int pos, const char *s);
 char * strdel(const char *str, const int pos, const int length);
@@ -94,17 +96,31 @@ char ** strarrsplit(const char *str, const char delimiter, int *arrlen)
     int ccount = strccount(str, delimiter) + 1;
     int i = 0;
     char *ptr;
-    int tmplen = 0;
+    int len = 0;
     int pos = 0;
     for (i = 0; i < ccount; i++)
     {
         ptr = strsplit(str, delimiter, pos, &pos);
-        tmplen = strlength(ptr);
-        result[i] = (char*)malloc(sizeof(char) * tmplen + sizeof(char));
+        len = strlength(ptr);
+        result[i] = (char*)malloc(sizeof(char) * len + sizeof(char));
         result[i] = ptr;
-        result[i][tmplen] = ENDOFSTRING;
+        result[i][len] = ENDOFSTRING;
     }
     *arrlen = ccount;
+    return result;
+}
+
+char * strfrm(const char *str, ...)
+{
+    char *result;
+    int len = 0;
+    va_list valist;
+    va_start(valist, str);
+    len = vsnprintf(NULL, 0, str, valist);
+    result = (char*)malloc(sizeof(char) * len + sizeof(char));
+    vsnprintf(result, len + 1, str, valist);
+    va_end(valist);
+    result[len] = ENDOFSTRING;
     return result;
 }
 
