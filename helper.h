@@ -96,8 +96,9 @@ char * strsplit(const char *str, const char delimiter, const int offset, int *po
 
 char ** strarrsplit(const char *str, const char delimiter, int *arrlen)
 {
-    char **result = (char**)malloc(sizeof(char) * strlength(str) + sizeof(char));
+    char **result;
     int ccount = strccount(str, delimiter) + 1;
+    result = (char**)malloc(sizeof(char*) * ccount);
     int i = 0;
     char *ptr;
     int len = 0;
@@ -264,23 +265,28 @@ bool fileappend(const char *path, const int pos, const char *content)
 {
     bool result = false;
     char *c = filecontent(path);
-    FILE *file = fopen(path, "w");
-    if (c && file)
+    FILE *file;
+    if (c)
     {
-        if (pos <= -1)
+        file = fopen(path, "w");
+        if (file)
         {
-            c = strcmb(c, content);
-            fprintf(file, "%s", c);
-            fclose(file);
-            result = true;
+            if (pos <= -1)
+            {
+                c = strcmb(c, content);
+                fprintf(file, "%s", c);
+                fclose(file);
+                result = true;
+            }
+            else
+            {
+                c = strins(c, pos, content);
+                fprintf(file, "%s", c);
+                fclose(file);
+                result = true;
+            }
         }
-        else
-        {
-            c = strins(c, pos, content);
-            fprintf(file, "%s", c);
-            fclose(file);
-            result = true;
-        }
+        free(c);
     }
     return result;
 }
