@@ -18,7 +18,7 @@ int strlength(const char *str);
 int strccount(const char *str, const char c);
 char * strsplit(const char *str, const char delimiter, const int offset, int *pos);
 char ** strarrsplit(const char *str, const char delimiter, int *arrlen);
-char * strfrm(const char *str, ...);
+char * strfmt(const char *str, ...);
 char * strinn(const char *str, const int pos, const int length);
 char * strins(const char *str, const int pos, const char *s);
 char * strdel(const char *str, const int pos, const int length);
@@ -97,7 +97,7 @@ char ** strarrsplit(const char *str, const char delimiter, int *arrlen)
     return result;
 }
 
-char * strfrm(const char *str, ...)
+char * strfmt(const char *str, ...)
 {
     char *result;
     int len = 0;
