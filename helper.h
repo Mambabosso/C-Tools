@@ -9,8 +9,6 @@
 
 #ifdef ENDOFSTRING
 
-//#define ENDOFLINE '\n'
-
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdbool.h>
@@ -36,11 +34,7 @@ const char nullstr[1] = { '\0' };
 int strlength(const char *str)
 {
     int result = 0;
-    #ifdef ENDOFLINE
-    while ((str[result] != ENDOFSTRING) && (str[result] != ENDOFLINE))
-    #else
     while ((str[result] != ENDOFSTRING))
-    #endif // ENDOFLINE
     {
         result++;
     }
@@ -51,11 +45,7 @@ int strccount(const char *str, const char c)
 {
     int result = 0;
     int i = 0;
-    #ifdef ENDOFLINE
-    while ((str[i] != ENDOFSTRING) && (str[i] != ENDOFLINE))
-    #else
     while ((str[i] != ENDOFSTRING))
-    #endif // ENDOFLINE
     {
         if (str[i] == c)
         {
@@ -70,21 +60,13 @@ char * strsplit(const char *str, const char delimiter, const int offset, int *po
 {
     char *result;
     int i = offset;
-    #ifdef ENDOFLINE
-    while ((str[i] != ENDOFSTRING) && (str[i] != ENDOFLINE) && (str[i] != delimiter))
-    #else
     while ((str[i] != ENDOFSTRING) && (str[i] != delimiter))
-    #endif // ENDOFLINE
     {
         i++;
     }
     result = (char*)malloc(sizeof(char) * (i - offset) + sizeof(char));
     i = offset;
-    #ifdef ENDOFLINE
-    while ((str[i] != ENDOFSTRING) && (str[i] != ENDOFLINE) && (str[i] != delimiter))
-    #else
     while ((str[i] != ENDOFSTRING) && (str[i] != delimiter))
-    #endif // ENDOFLINE
     {
         result[i - offset] = str[i];
         i++;
@@ -293,3 +275,4 @@ bool fileappend(const char *path, const int pos, const char *content)
 
 
 #endif // ENDOFSTRING
+
