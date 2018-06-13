@@ -10,7 +10,7 @@
 #include <stdarg.h>
 #include <stdbool.h>
 
-char * scnf(const char *str, const int sz);
+char * scnf(const char *str, const unsigned int sz);
 int strlength(const char *str);
 int strccount(const char *str, const char c);
 char * strsplit(const char *str, const char delimiter, const int offset, int *pos);
@@ -29,7 +29,7 @@ const char ENDOFSTRING = '\0';
 const char NULLSTR[1] = { '\0' };
 
 
-char * scnf(const char *str, const int sz)
+char * scnf(const char *str, const unsigned int sz)
 {
     char *result = (char*)malloc(sizeof(char) * sz + sizeof(char));
     printf("%s", str);
