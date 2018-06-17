@@ -10,7 +10,6 @@
 #include <stdarg.h>
 #include <stdbool.h>
 
-char * scnf(const char *str, const unsigned int sz);
 int strlength(const char *str);
 int strccount(const char *str, const char c);
 char * strsplit(const char *str, const char delimiter, const int offset, int *pos);
@@ -28,15 +27,6 @@ bool fileappend(const char *path, const int pos, const char *content);
 const char ENDOFSTRING = '\0';
 const char NULLSTR[1] = { '\0' };
 
-
-char * scnf(const char *str, const unsigned int sz)
-{
-    char *result = (char*)malloc(sizeof(char) * sz + sizeof(char));
-    printf("%s", str);
-    fgets(result, sz + 1, stdin);
-    result[sz] = ENDOFSTRING;
-    return result;
-}
 
 int strlength(const char *str)
 {
