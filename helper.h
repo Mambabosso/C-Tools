@@ -35,6 +35,7 @@ bool filecopy(const char *path, const char *destpath);
 const char ENDOFSTRING = '\0';
 const char NULLSTR[1] = { '\0' };
 
+
 int strlength(const char *str)
 {
     int result = 0;
