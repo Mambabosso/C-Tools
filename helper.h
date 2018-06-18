@@ -9,9 +9,12 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdbool.h>
+#include <ctype.h>
+
 
 int strlength(const char *str);
 int strccount(const char *str, const char c);
+bool strcheck(const char *str);
 char * strsplit(const char *str, const char delimiter, const int offset, int *pos);
 char ** strarrsplit(const char *str, const char delimiter, int *arrlen);
 char * strfmt(const char *str, ...);
@@ -19,14 +22,18 @@ char * strinn(const char *str, const int pos, const int length);
 char * strins(const char *str, const int pos, const char *s);
 char * strdel(const char *str, const int pos, const int length);
 char * strcmb(const char *str, const char *s);
+char * strtoupper(const char *str);
+char * strtolower(const char *str);
+bool fileexists(const char *path);
+int fileempty(const char *path);
 int filesize(const char *path);
 char * filecontent(const char *path);
 bool filewrite(const char *path, const char *content);
 bool fileappend(const char *path, const int pos, const char *content);
+bool filecopy(const char *path, const char *destpath);
 
 const char ENDOFSTRING = '\0';
 const char NULLSTR[1] = { '\0' };
-
 
 int strlength(const char *str)
 {
@@ -49,6 +56,24 @@ int strccount(const char *str, const char c)
             result++;
         }
         i++;
+    }
+    return result;
+}
+
+bool strcheck(const char *str)
+{
+    bool result = false;
+    int i = 0;
+    if (str)
+    {
+        while ((str[i] != ENDOFSTRING))
+        {
+            if (!isspace(str[i]))
+            {
+                return true;
+            }
+            i++;
+        }
     }
     return result;
 }
@@ -192,6 +217,63 @@ char * strcmb(const char *str, const char *s)
     return result;
 }
 
+char * strtoupper(const char *str)
+{
+    char *result = (char*)malloc(sizeof(char) * strlength(str) + sizeof(char));
+    int i = 0;
+    while ((str[i] != ENDOFSTRING))
+    {
+        result[i] = (char)toupper(str[i]);
+        i++;
+    }
+    result[i] = ENDOFSTRING;
+    return result;
+}
+
+char * strtolower(const char *str)
+{
+    char *result = (char*)malloc(sizeof(char) * strlength(str) + sizeof(char));
+    int i = 0;
+    while ((str[i] != ENDOFSTRING))
+    {
+        result[i] = (char)tolower(str[i]);
+        i++;
+    }
+    result[i] = ENDOFSTRING;
+    return result;
+}
+
+bool fileexists(const char *path)
+{
+    FILE *file = fopen(path, "r");
+    if (file)
+    {
+        fclose(file);
+        return true;
+    }
+    return false;
+}
+
+int fileempty(const char *path)
+{
+    int result = -1;
+    FILE *file = fopen(path, "r");
+    if (file)
+    {
+        fseek(file, 0, 2);
+        if (ftell(file) > 0)
+        {
+            result = 1;
+        }
+        else
+        {
+            result = 0;
+        }
+        fclose(file);
+    }
+    return result;
+}
+
 int filesize(const char *path)
 {
     int result = -1;
@@ -266,6 +348,16 @@ bool fileappend(const char *path, const int pos, const char *content)
             }
         }
         free(c);
+    }
+    return result;
+}
+
+bool filecopy(const char *path, const char *destpath)
+{
+    bool result = false;
+    if (fileexists(path))
+    {
+        result = filewrite(destpath, filecontent(path));
     }
     return result;
 }
