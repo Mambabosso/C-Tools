@@ -30,6 +30,7 @@ int filesize(const char *path);
 char * filecontent(const char *path);
 bool filewrite(const char *path, const char *content);
 bool fileappend(const char *path, const int pos, const char *content);
+bool fileoverwrite(const char *path, const int pos, const char *content);
 bool filecopy(const char *path, const char *destpath);
 
 const char ENDOFSTRING = '\0';
@@ -333,20 +334,35 @@ bool fileappend(const char *path, const int pos, const char *content)
         file = fopen(path, "w");
         if (file)
         {
-            if (pos <= -1)
+            c = (pos < 0) ? strcmb(c, content) : strins(c, pos, content);
+            fprintf(file, "%s", c);
+            fclose(file);
+            result = true;
+        }
+        free(c);
+    }
+    return result;
+}
+
+bool fileoverwrite(const char *path, const int pos, const char *content)
+{
+    bool result = false;
+    int i = 0;
+    int clen = strlength(content);
+    char *c = filecontent(path);
+    FILE *file;
+    if (c && (strlength(c) - pos) >= strlength(content))
+    {
+        file = fopen(path, "w");
+        if (file)
+        {
+            for (i = 0; i < clen; i++)
             {
-                c = strcmb(c, content);
-                fprintf(file, "%s", c);
-                fclose(file);
-                result = true;
+                c[i + pos] = content[i];
             }
-            else
-            {
-                c = strins(c, pos, content);
-                fprintf(file, "%s", c);
-                fclose(file);
-                result = true;
-            }
+            fprintf(file, "%s", c);
+            fclose(file);
+            result = true;
         }
         free(c);
     }
