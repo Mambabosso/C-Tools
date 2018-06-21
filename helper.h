@@ -11,6 +11,8 @@
 #include <stdbool.h>
 #include <ctype.h>
 
+#define ENDOFSTRING '\0'
+
 
 int strlength(const char *str);
 int strccount(const char *str, const char c);
@@ -33,7 +35,6 @@ bool fileappend(const char *path, const int pos, const char *content);
 bool fileoverwrite(const char *path, const int pos, const char *content);
 bool filecopy(const char *path, const char *destpath);
 
-const char ENDOFSTRING = '\0';
 const char NULLSTR[1] = { '\0' };
 
 
