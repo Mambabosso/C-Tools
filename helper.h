@@ -28,7 +28,7 @@ char * strdel(const char *str, const int pos, const int length);
 char * strcmb(const char *str, const char *s);
 char * strtoupper(const char *str);
 char * strtolower(const char *str);
-void rndinit();
+void rndinit(void);
 int rndnum(const int minval, const int maxval);
 char * rndstr(const char *chars, const int minlen, const int maxlen);
 bool fileexists(const char *path);
@@ -251,7 +251,7 @@ char * strtolower(const char *str)
     return result;
 }
 
-void rndinit()
+void rndinit(void)
 {
     srand(time(NULL));
 }
