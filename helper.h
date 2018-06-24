@@ -10,7 +10,9 @@
 #include <stdarg.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <time.h>
 
+#define ABC "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 #define ENDOFSTRING '\0'
 
 
@@ -26,6 +28,9 @@ char * strdel(const char *str, const int pos, const int length);
 char * strcmb(const char *str, const char *s);
 char * strtoupper(const char *str);
 char * strtolower(const char *str);
+void rndinit();
+int rndnum(const int minval, const int maxval);
+char * rndstr(const char *chars, const int minlen, const int maxlen);
 bool fileexists(const char *path);
 int fileempty(const char *path);
 int filesize(const char *path);
@@ -243,6 +248,31 @@ char * strtolower(const char *str)
         i++;
     }
     result[i] = ENDOFSTRING;
+    return result;
+}
+
+void rndinit()
+{
+    srand(time(NULL));
+}
+
+int rndnum(const int minval, const int maxval)
+{
+    return rand() % ((maxval + 1) - minval) + minval;
+}
+
+char * rndstr(const char *chars, const int minlen, const int maxlen)
+{
+    char *result;
+    int slen = strlength(chars);
+    int rndlen = rndnum(minlen, maxlen);
+    int i = 0;
+    result = (char*)malloc(sizeof(char) * rndlen + sizeof(char));
+    for (i = 0; i < rndlen; i++)
+    {
+        result[i] = chars[rndnum(0, slen - 1)];
+    }
+    result[rndlen] = ENDOFSTRING;
     return result;
 }
 
