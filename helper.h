@@ -258,7 +258,7 @@ void rndinit()
 
 int rndnum(const int minval, const int maxval)
 {
-    return rand() % ((maxval + 1) - minval) + minval;
+    return (rand() % ((maxval + 1) - minval) + minval);
 }
 
 char * rndstr(const char *chars, const int minlen, const int maxlen)
